@@ -1120,6 +1120,16 @@ const unsubShift = subscribeToCloud('current_shift', (remoteShift) => {
         localStorage.setItem('lc_pos_salary_advances', serialized);
       }
     });
+
+    const unsubSettings = subscribeToCloud('system_settings', (remoteSettings) => {
+      if (remoteSettings && typeof remoteSettings === 'object') {
+        const serialized = JSON.stringify(remoteSettings);
+        if (prevSettingsRef.current !== serialized) {
+          prevSettingsRef.current = serialized;
+          setSettings(remoteSettings);
+        }
+      }
+    });
     
     return () => {
       if (typeof unsubOrders === 'function') unsubOrders();
@@ -1137,6 +1147,7 @@ const unsubShift = subscribeToCloud('current_shift', (remoteShift) => {
       if (typeof unsubAccounting === 'function') unsubAccounting();
       if (typeof unsubVendorBills === 'function') unsubVendorBills();
       if (typeof unsubAdvances === 'function') unsubAdvances();
+      if (typeof unsubSettings === 'function') unsubSettings();
     };
   }, []);
 
@@ -1305,6 +1316,18 @@ const unsubShift = subscribeToCloud('current_shift', (remoteShift) => {
       }
     }
   }, [salaryAdvances]);
+
+  // 2. BROADCAST SETTINGS UP TO FIREBASE
+  useEffect(() => {
+    if (!isCloudSynced.current) return;
+    if (settings !== undefined && settings !== null) {
+      const serialized = JSON.stringify(settings);
+      if (serialized !== prevSettingsRef.current) {
+        prevSettingsRef.current = serialized;
+        syncToCloud('system_settings', settings);
+      }
+    }
+  }, [settings]);
 
   const handleCreateStaff = (e) => {
     e.preventDefault();
