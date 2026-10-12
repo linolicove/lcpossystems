@@ -43,6 +43,9 @@ export const subscribeToCloud = (nodeName, callback) => {
           console.error(`Parse error on ${nodeName}:`, e);
         }
       }
+    } else {
+      // CRITICAL FIX: Tell the app the database is checked and ready even if empty
+      callback(null);
     }
   });
 };

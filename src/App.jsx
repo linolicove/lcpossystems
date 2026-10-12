@@ -947,29 +947,21 @@ const exportReportToExcel = (reportTitle, dataRows, filenamePrefix = 'Report') =
   }
   });
 
-  // SEED ALL NODES ON FIRST RUN
+ // Seed database under lc_pos_live on startup
   useEffect(() => {
-    const seedAllNodes = () => {
-      // Arrays with defaults
-      syncToCloud('menu_items', menuItems.length > 0 ? menuItems : INITIAL_MENU_ITEMS);
-      syncToCloud('floor_tables', floorTables.length > 0 ? floorTables : INITIAL_FLOOR_TABLES);
-      syncToCloud('inventory', inventory.length > 0 ? inventory : INITIAL_RAW_INVENTORY);
-      syncToCloud('staff_list', staffList.length > 0 ? staffList : INITIAL_STAFF);
-      syncToCloud('system_settings', settings);
-      syncToCloud('current_shift', currentShift);
-      syncToCloud('denominations', denominations);
-      syncToCloud('accounting_settings', { period: 'ALL' });
-      
-      // Ensure transaction and record nodes exist even if currently empty
-      syncToCloud('active_orders', activeOrders || []);
-      syncToCloud('transactions', transactions || []);
-      syncToCloud('expenses', expenses || []);
-      syncToCloud('payroll_records', payrollRecords || []);
-      syncToCloud('salary_advances', salaryAdvances || []);
-      syncToCloud('audit_logs', auditLogs || []);
-    };
-
-    seedAllNodes();
+    syncToCloud('menu_items', menuItems);
+    syncToCloud('floor_tables', floorTables);
+    syncToCloud('inventory', inventory);
+    syncToCloud('staff_list', staffList);
+    syncToCloud('system_settings', settings);
+    syncToCloud('current_shift', currentShift);
+    syncToCloud('denominations', denominations);
+    syncToCloud('active_orders', activeOrders);
+    syncToCloud('transactions', transactions);
+    syncToCloud('vendor_bills', vendorBills);
+    syncToCloud('payroll_records', payrollRecords);
+    syncToCloud('salary_advances', salaryAdvances);
+    syncToCloud('audit_logs', auditLogs);
   }, []);
 
   // ============================================================
