@@ -925,7 +925,7 @@ const exportReportToExcel = (reportTitle, dataRows, filenamePrefix = 'Report') =
   };
   
  // Refs to prevent premature uploads and re-render loops
-  const isCloudSynced = useRef(false);
+  const isCloudSynced = useRef(true);
   const prevOrdersRef = useRef('');
   const prevTransRef = useRef('');
   const prevTablesRef = useRef('');
