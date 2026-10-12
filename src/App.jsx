@@ -925,7 +925,7 @@ const exportReportToExcel = (reportTitle, dataRows, filenamePrefix = 'Report') =
   };
   
  // Refs to prevent premature uploads and re-render loops
-  const isCloudSynced = useRef(false);
+  const isCloudSynced = useRef(true);
   const prevOrdersRef = useRef('');
   const prevTransRef = useRef('');
   const prevTablesRef = useRef('');
@@ -946,6 +946,23 @@ const exportReportToExcel = (reportTitle, dataRows, filenamePrefix = 'Report') =
     return [];
   }
   });
+
+  // =========================================================================
+  // STEP 7: PUSH INITIAL DATA ON FIRST RUN (Seeds the empty database)
+  // =========================================================================
+  useEffect(() => {
+    const seedIfEmpty = () => {
+      // Seeds the default arrays if the new database is currently empty
+      syncToCloud('menu_items', menuItems.length > 0 ? menuItems : INITIAL_MENU_ITEMS);
+      syncToCloud('floor_tables', floorTables.length > 0 ? floorTables : INITIAL_FLOOR_TABLES);
+      syncToCloud('inventory', inventory.length > 0 ? inventory : INITIAL_RAW_INVENTORY);
+      syncToCloud('staff_list', staffList.length > 0 ? staffList : INITIAL_STAFF);
+      syncToCloud('system_settings', settings);
+      console.log('✅ Initial database seed pushed to Firebase under lc_pos_live');
+    };
+
+    seedIfEmpty();
+  }, []);
 
   // ============================================================
   // 1. REAL-TIME CLOUD LISTENERS (Download from Firebase)
