@@ -947,23 +947,6 @@ const exportReportToExcel = (reportTitle, dataRows, filenamePrefix = 'Report') =
   }
   });
 
- // Seed database under lc_pos_live on startup
-  useEffect(() => {
-    syncToCloud('menu_items', menuItems);
-    syncToCloud('floor_tables', floorTables);
-    syncToCloud('inventory', inventory);
-    syncToCloud('staff_list', staffList);
-    syncToCloud('system_settings', settings);
-    syncToCloud('current_shift', currentShift);
-    syncToCloud('denominations', denominations);
-    syncToCloud('active_orders', activeOrders);
-    syncToCloud('transactions', transactions);
-    syncToCloud('vendor_bills', vendorBills);
-    syncToCloud('payroll_records', payrollRecords);
-    syncToCloud('salary_advances', salaryAdvances);
-    syncToCloud('audit_logs', auditLogs);
-  }, []);
-
   // ============================================================
   // 1. REAL-TIME CLOUD LISTENERS (Download from Firebase)
   // ============================================================
