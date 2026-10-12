@@ -703,7 +703,7 @@ const exportReportToExcel = (reportTitle, dataRows, filenamePrefix = 'Report') =
   const [settings, setSettings] = usePersistentState('lc_pos_system_settings', {
     restaurantName: 'LC POS Systems Midigama',
     tagline: 'RESTAURANT & BAR',
-    legalName: 'LC POS Systems Leisure (Pvt) Ltd',
+    legalName: 'LC POS Systems (Pvt) Ltd',
     businessRegNo: 'PV-00289144',
     taxId: 'TIN-109284719',
     terminalId: 'LC-POS-SYSTEMS-01',
