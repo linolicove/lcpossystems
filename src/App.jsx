@@ -1125,8 +1125,9 @@ const unsubShift = subscribeToCloud('current_shift', (remoteShift) => {
       if (remoteSettings && typeof remoteSettings === 'object') {
         const serialized = JSON.stringify(remoteSettings);
         if (prevSettingsRef.current !== serialized) {
-          prevSettingsRef.current = serialized;
+          prevSettingsRef.current = serialized; // Update ref FIRST so the outbound effect stays silent
           setSettings(remoteSettings);
+          isCloudSynced.current = true;
         }
       }
     });
